@@ -1,0 +1,15 @@
+program p2017;
+/* This program computes and prints the value
+	of an expression */
+var
+  /*declare variables */
+  p1 ,	q2r ,	r, p12	: integer ;
+begin
+	p1	= 3 ; /* initialize variables */
+	q2r =	4 ;
+	r	= 5  ;
+  print ( r    ); /* display r		*/
+	/* compute the value of the expression */
+	p12 = p1 * ( q2r + 2 * r)	;
+	print (    p12  );	/* print the value of p12 */
+end.
