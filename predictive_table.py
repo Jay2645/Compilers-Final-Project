@@ -104,11 +104,11 @@ add_to_table('stat-list-prime', ['print(', 'p', 'q', 'r', 's'], "stat stat-list-
 add_to_table('stat-list-prime', ['end.'], "")
 
 # Stat
-table['stat']['print('] = "write"
-table['stat']['p'] = table['stat']['q'] = table['stat']['r'] = table['stat']['s'] = "assign"
+add_to_table('stat', ['print('], "write")
+add_to_table('stat', ['p', 'q', 'r', 's'], "assign")
 
 # Write
-table['write']['print('] = "print( id );"
+add_to_table('write', ['print('], "print( id );")
 
 # Assign
 add_to_table('assign', ['p', 'q', 'r', 's'], "id = expr")
@@ -164,13 +164,50 @@ add_to_table('letter', ['q'], 'q')
 add_to_table('letter', ['r'], 'r')
 add_to_table('letter', ['s'], 's')
 
-for entry in table:
-    output = entry + ":\n"
-    for var in table[entry]:
-        output += var + " " + table[entry][var] + ", "
-    print(output + '\n')
+##for entry in table:
+##    output = entry + ":\n"
+##    for var in table[entry]:
+##        output += var + ": \"" + table[entry][var] + "\", "
+##    print(output + '\n')
+
+def try_make_stack(file_input, current_stack):
+    """
+    file_input is the actual input text file, split into an array on spaces.
+    current_stack is the current stack
+    """
+
+    last_entry = ""
+    while True:
+        print(file_input)
+
+        if last_entry == "":
+            last_entry = current_stack.pop()
+
+        if last_entry == '$':
+            print("Complete!")
+            return
+
+        read_variable = file_input[0]
+
+        # Try to read the next entry
+        try:
+            print("Trying to read " + read_variable)
+            table_entry = table[last_entry][read_variable].split(' ')
+        except KeyError:
+            print("Could not read entry " + last_entry + "!")
+            return
+
+        # Add all table entry items into the stack
+        for item in table_entry[::-1]:
+            print("Adding " + item)
+            current_stack.append(item)
+
+        print(stack)
 
 cleaner = SymbolCleaner()
-file = cleaner.do_file_cleanup().split(' ')
+split_file = cleaner.do_file_cleanup().split(' ')
 
-print(file)
+stack = []
+stack.append('$')
+stack.append('prog')
+try_make_stack(split_file, stack)
