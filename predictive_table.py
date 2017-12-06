@@ -130,5 +130,48 @@ add_to_table('expr-prime', [')', ';'], "")
 # Term
 add_to_table('term', ['(', 'p', 'q', 'r', 's', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "factor term-prime")
 
+# Term-Prime
+add_to_table('term-prime', ['*'], "* term term-prime")
+add_to_table('term-prime', ['/'], "/ term term-prime")
+add_to_table('term-prime', ['+', '-', ')', ';'], "")
+
+# Factor
+add_to_table('factor', ['p', 'q', 'r', 's'], "id")
+add_to_table('factor', ['+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "number")
+add_to_table('factor', ['('], "( expr )")
+
+# Number
+add_to_table('number', ['+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "sign digit number-after")
+
+# Number-After
+add_to_table('number-after', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "digit")
+add_to_table('term-prime', ['+', '-', '*', '/', ')', ';'], "")
+
+# Sign
+add_to_table('sign', ['+'], "+")
+add_to_table('sign', ['-'], "-")
+add_to_table('sign', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "")
+
+# Digit
+add_to_table('digit', ['0'], '0')
+add_to_table('digit', ['1'], '1')
+add_to_table('digit', ['2'], '2')
+add_to_table('digit', ['3'], '3')
+add_to_table('digit', ['4'], '4')
+add_to_table('digit', ['5'], '5')
+add_to_table('digit', ['6'], '6')
+add_to_table('digit', ['7'], '7')
+add_to_table('digit', ['8'], '8')
+add_to_table('digit', ['9'], '9')
+
+# Letter
+add_to_table('letter', ['p'], 'p')
+add_to_table('letter', ['q'], 'q')
+add_to_table('letter', ['r'], 'r')
+add_to_table('letter', ['s'], 's')
+
 for entry in table:
-    print(entry + ": " + str(table[entry]))
+    output = entry + ":\n"
+    for var in table[entry]:
+        output += var + " " + table[entry][var] + ", "
+    print(output + '\n')
