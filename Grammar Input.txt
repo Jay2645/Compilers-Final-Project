@@ -6,8 +6,9 @@ id-after -> letter id-after
 id-after -> digit id-after
 id-after -> LAMBDA
 dec-list -> dec : type ;
-dec -> id , dec
-dec -> id , id
+dec -> id , dec-prime
+dec-prime -> id , dec-prime
+dec-prime -> LAMBDA
 type -> integer
 stat-list-> stat
 stat-list-> stat stat-list
