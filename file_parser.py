@@ -89,7 +89,5 @@ class SymbolCleaner:
         for line in statement_output:
             for value in line:
                 output_string += value + ' '
-            output_string += '\n'
         output_string = re.sub('  ', ' ', output_string)
-        print(output_string)
         return output_string

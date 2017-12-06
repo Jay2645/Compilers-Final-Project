@@ -72,42 +72,36 @@ def add_to_table(key, list_of_intersections, value):
         table[key][intersection] = value
 
 # Prog
-table['prog']['program'] = "program id ; var dec-list begin stat-list end."
-table['prog']['$'] = "program id ; var dec-list begin stat-list end."
+add_to_table('prog', ['program'], "program id ; var dec-list begin stat-list end.")
+add_to_table('prog', ['$'], "program id ; var dec-list begin stat-list end.")
 
 # ID
-table['id']['p'] = table['id']['q'] = table['id']['r'] = table['id']['s'] = "letter id-after"
+add_to_table('id', ['p', 'q', 'r', 's'], "letter id-after")
 
 # ID-After
-table['id-after']['p'] = table['id-after']['q'] = table['id-after']['r'] = table['id-after']['s'] = "letter id-after"
-table['id-after']['0'] = table['id-after']['1'] = table['id-after']['2'] = table['id-after']['3'] = \
-    table['id-after']['4'] = table['id-after']['5'] = table['id-after']['6'] = table['id-after']['7'] = \
-    table['id-after']['8'] = table['id-after']['9'] = "digit id-after"
-table['id-after']['='] = table['id-after'][');'] = table['id-after'][','] = table['id-after'][';'] = \
-    table['id-after']['*'] = table['id-after']['/'] = table['id-after'][':'] = table['id-after']['+'] = \
-    table['id-after']['-'] = table['id-after'][')'] = ""
+add_to_table('id-after', ['p', 'q', 'r', 's'], "letter id-after")
+add_to_table('id-after', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], "digit id-after")
+add_to_table('id-after', ['=', ');', ',', ';', '*', '/', ':', '+', '-', ')'], "")
 
 # Dec-List
-table['dec-list']['p'] = table['dec-list']['q'] = table['dec-list']['r'] = table['dec-list']['s'] = "dec : type ;"
+add_to_table('dec-list', ['p', 'q', 'r', 's'], "dec : type ;")
 
 # Dec
-table['dec']['p'] = table['dec']['q'] = table['dec']['r'] = table['dec']['s'] = "id , dec-prime"
+add_to_table('dec', ['p', 'q', 'r', 's'], "id , dec-prime")
 
 # Dec-Prime
-table['dec-prime']['p'] = table['dec-prime']['q'] = table['dec-prime']['r'] = table['dec-prime']['s'] = "id , dec-prime"
-table['dec-prime'][':'] = ""
+add_to_table('dec-prime', ['p', 'q', 'r', 's'], "id , dec-prime")
+add_to_table('dec-prime', [':'], "")
 
 # Type
-table['type']['integer'] = "integer"
+add_to_table('type', ['integer'], "integer")
 
 # Stat-List
-table['stat-list']['print('] = table['stat-list']['p'] = table['stat-list']['q'] = \
-    table['stat-list']['r'] = table['stat-list']['s'] = "stat stat-list-prime"
+add_to_table('stat-list', ['print(', 'p', 'q', 'r', 's'], "stat stat-list-prime")
 
 # Stat-List Prime
-table['stat-list-prime']['print('] = table['stat-list-prime']['p'] = table['stat-list-prime']['q'] = \
-    table['stat-list-prime']['r'] = table['stat-list-prime']['s'] = "stat stat-list-prime"
-table['stat-list-prime']['end.'] = ""
+add_to_table('stat-list-prime', ['print(', 'p', 'q', 'r', 's'], "stat stat-list-prime")
+add_to_table('stat-list-prime', ['end.'], "")
 
 # Stat
 table['stat']['print('] = "write"
@@ -175,3 +169,8 @@ for entry in table:
     for var in table[entry]:
         output += var + " " + table[entry][var] + ", "
     print(output + '\n')
+
+cleaner = SymbolCleaner()
+file = cleaner.do_file_cleanup().split(' ')
+
+print(file)
