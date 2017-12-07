@@ -30,7 +30,6 @@ SPECIAL_SYMBOLS = [
 ]
 
 class SymbolCleaner:
-
     # This function formats the lines, stripping whitespace and comments
     def clean_up_lines(self, lines):
         statement = ''
