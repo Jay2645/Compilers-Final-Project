@@ -3,7 +3,7 @@ program p2017;
 	of an expression */
 var
   /*declare variables */
-  p1 ,	q2r ,	r, p12	: integer ;
+  p1 ,	q2r ,	r, p12 : integer ;
 begin
 	p1	= 3 ; /* initialize variables */
 	q2r =	4 ;

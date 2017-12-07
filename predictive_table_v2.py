@@ -59,6 +59,16 @@ non_terminals = [
         "expr"
     ]
 
+# Failure states
+failure_states = {
+        "prog": "program is expected",
+        "var": "var is expected",
+        "begin": "begin is expected",
+        "end.": "end. is expected",
+        "integer": "integer is expected",
+        "print": "Print is mispelled!"
+    }
+
 # Make the table
 table = {}
 for non_terminal in non_terminals:
@@ -167,9 +177,9 @@ add_to_table('letter', ['s'], 's')
 def try_make_stack(file_input, current_stack):
     file_input_read = ""
     stack_input_read = ""
-
-    for i in range(0,250):
-
+    for i in range(0, 500):
+        #print("Reading stack: " + str(current_stack))
+        
         if file_input_read == '' and stack_input_read == '$':
             print("done")
             return
@@ -184,12 +194,12 @@ def try_make_stack(file_input, current_stack):
             stack_input_read = current_stack.pop()
 
         if stack_input_read == '!':
-            print("break",i,sep=' ')
+            print("Error detected! Stack: " + file_input_read)
             return
 
-        print('\n',current_stack)
-        print("file_input_read = ",file_input_read,sep="   ")
-        print("stack_input_read = ",stack_input_read,sep="   ")
+        #print('\n',current_stack)
+        #print("file_input_read = ",file_input_read,sep="   ")
+        #print("stack_input_read = ",stack_input_read,sep="   ")
 
         if file_input_read == stack_input_read:
             print("match")
@@ -205,13 +215,18 @@ def try_make_stack(file_input, current_stack):
                         current_stack.append(var)
                 stack_input_read = ""
             except KeyError:
-                print("Found a variable")
-                temp = [x for x in file_input_read]
-                print(file_input_read,stack_input_read,sep='   ')
-                for var in temp[::-1]:
-                    file_input.insert(0,var)
-                file_input_read = ""
-        print(file_input)
+                if len(file_input_read) > 1:
+                    print("Key error!")
+                    temp = [x for x in file_input_read]
+                    print(file_input_read,stack_input_read,sep='   ')
+                    for var in temp[::-1]:
+                        file_input.insert(0,var)
+                    file_input_read = ""
+                elif len(file_input_read) == 1 and file_input_read not in terminal_list:
+                    print("Broken! Detected: " +
+                          file_input_read + ", " + stack_input_read)
+                    return
+        #print(file_input)
                     
     
 
@@ -223,5 +238,4 @@ split_file = cleaner.do_file_cleanup().split(' ')
 stack = []
 stack.append('$')
 stack.append('prog')
-print(split_file)
 try_make_stack(split_file, stack)
