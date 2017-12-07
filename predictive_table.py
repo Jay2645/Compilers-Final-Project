@@ -226,10 +226,12 @@ class PredictiveInterpreter:
 
     # This tries and processes the current stack
     def try_make_stack(self, file_input):
+        # Create the stack
         current_stack = []
         current_stack.append('$')
         current_stack.append('prog')
 
+        # Initialize variables
         file_input_read = ""
         stack_input_read = ""
 
@@ -237,25 +239,22 @@ class PredictiveInterpreter:
 
         # Give 500 attempts at processing the stack
         for i in range(0, 500):
-            # We're done reading the file
-            if file_input_read == '' and stack_input_read == '$':
-                print("File compiled successfully!")
-                # 
-                return self.make_final_output(output_string)
-            
             if file_input_read == "":
-                #if current read is empty
-                #reads a character/word into current_read
+                # If current read is empty
+                # reads a character/word into current_read
                 file_input_read = file_input[0]
                 file_input = file_input[1:]
 
+            # If we encounter a lambda (empty string), pop the stack
             if stack_input_read == "":
                 stack_input_read = current_stack.pop()
 
+            # If we encounter a "!" (error), print an error
             if stack_input_read == '!':
                 print("Error detected! Stack: " + file_input_read)
                 return
 
+            # Check to see if our input matches the stack
             if file_input_read == stack_input_read:
                 print("Matched: " + file_input_read)
                 output_string += self.try_make_python_file(file_input_read)
@@ -263,23 +262,47 @@ class PredictiveInterpreter:
                 stack_input_read = ""
             else:
                 try:
+                    # Input doesn't match; try splitting the table entry
                     result = self.table[stack_input_read][file_input_read].split(' ')
+                    # Add all tokens in the table entry to our stack
                     for var in result[::-1]:
                         if var != '':
                             current_stack.append(var)
+                    # Reset our read variable
                     stack_input_read = ""
                 except KeyError:
+                    # If we encounter a KeyError, that means we had
+                    # no table entry for this input
+
+                    # Check to see if we have a defined error message
                     if stack_input_read in self.failure_states:
                         print(self.failure_states[stack_input_read])
                         return None
+                    # If the current input is longer than a single character,
+                    # then we have a variable of some kind
                     elif len(file_input_read) > 1:
+                        # Tries to split the variable into its constituent
+                        # symbols, then adds them to the stack
                         temp = [x for x in file_input_read]
                         for var in temp[::-1]:
                             file_input.insert(0,var)
+                        # Clear the file input
                         file_input_read = ""
+                    
+                    # We read a single character, but it's not in our terminal list
                     elif len(file_input_read) == 1 and (
                             file_input_read not in self.terminal_list):
                         print(file_input_read,stack_input_read,sep='   ')
                         print("Error! Detected: " +
                               file_input_read + ", Expected: " + stack_input_read)
                         return None
+                    # We encountered the end of the stack
+                    elif stack_input_read == '$':
+                        print("File compiled successfully!")
+                        # Do post-processing on our output string
+                        # to clean it up and turn it into a Python file
+                        return self.make_final_output(output_string)
+                    else:
+                        raise KeyError
+
+        raise RuntimeError("Could not process stack!")
