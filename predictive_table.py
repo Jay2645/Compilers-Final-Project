@@ -251,7 +251,7 @@ class PredictiveInterpreter:
 
             # If we encounter a "!" (error), print an error
             if stack_input_read == '!':
-                print("Error detected! Stack: " + file_input_read)
+                print("Error detected! Stack: " + str(current_stack))
                 return
 
             # Check to see if our input matches the stack

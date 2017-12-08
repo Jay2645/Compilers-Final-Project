@@ -1,15 +1,22 @@
-program p2017;
-/* This program computes and prints the value
-	of an expression */
+/* 	Program Name: Fall 2017
+	Final Project
+
+---------------------------------------------*/
+program pqr17;
 var
-  /*declare variables */
-  p1 ,	q2r ,	r, p12 : integer ;
+
+	pqr,   r12  , qqp : integer; /* declare variables */
+
+
 begin
-	p1	= 3 ; /* initialize variables */
-	q2r =	4 ;
-	r	= 5  ;
-  print ( r    ); /* display r		*/
-	/* compute the value of the expression */
-	p12 = p1 * ( q2r + 2 * r)	;
-	print (    p12  );	/* print the value of p12 */
+	r12     =    121       ;
+	print  (      r12)  ;
+
+	qqp     =10    ;
+
+	pqr   =    r12 - qqp     *( 3 + r12 )    ;/* find the value of pqr*/
+
+/*  display pqr and qqp values  */
+	print( pqr     )  ;
+	print(     qqp      );
 end.
